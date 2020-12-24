@@ -1,7 +1,7 @@
-package com.example.news;
+package com.example.news.TDD_TESTS;
 
 import com.example.news.Presenters.LogInActivityPresenter;
-import com.example.news.Presenters.LogInTestInterface;
+import com.example.news.Models.Login.LogInTestInterface;
 
 import org.junit.Before;
 import org.junit.Test;

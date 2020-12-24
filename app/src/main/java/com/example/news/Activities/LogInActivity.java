@@ -1,4 +1,4 @@
-package com.example.news;
+package com.example.news.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,12 +12,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.news.Presenters.LogInActivityPresenter;
-import com.example.news.Presenters.LogInTestInterface;
+import com.example.news.Models.Login.LogInTestInterface;
+import com.example.news.R;
+import com.example.news.Models.Shared;
+import com.example.news.Models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LogInActivity extends AppCompatActivity implements LogInTestInterface {
@@ -77,8 +81,20 @@ public class LogInActivity extends AppCompatActivity implements LogInTestInterfa
         }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Intent view = new Intent(LogInActivity.this, MainActivity.class);
-                startActivity(view);
+                collectionReferenceUsers.document(authResult.getUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                       Shared.currentUser = new User(documentSnapshot.get("id").toString(),documentSnapshot.get("name").toString(),documentSnapshot.get("email").toString());
+                       Intent view = new Intent(LogInActivity.this, MainActivity.class);
+                        view.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(view);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(LogInActivity.this, "Something went wrong !!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

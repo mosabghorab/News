@@ -1,4 +1,4 @@
-package com.example.news.ui.home;
+package com.example.news.Fragments.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

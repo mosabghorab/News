@@ -1,4 +1,4 @@
-package com.example.news.Presenters;
+package com.example.news.Models.Login;
 
 public interface LogInTestInterface {
 

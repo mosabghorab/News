@@ -1,18 +1,19 @@
-package com.example.news;
+package com.example.news.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.news.model.User;
+import com.example.news.R;
+import com.example.news.Models.Shared;
+import com.example.news.Models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -59,7 +60,7 @@ public class SignUpAvtivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 if (authResult != null && authResult.getUser() != null) {
-                                    User user = new User(authResult.getUser().getUid(), name.getText().toString(), email.getText().toString());
+                                    final User user = new User(authResult.getUser().getUid(), name.getText().toString(), email.getText().toString());
                                     collectionReferenceUsers.document(authResult.getUser().getUid()).set(user).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
@@ -69,7 +70,9 @@ public class SignUpAvtivity extends AppCompatActivity {
                                     }).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
+                                            Shared.currentUser = user;
                                             Intent view = new Intent(SignUpAvtivity.this, MainActivity.class);
+                                            view.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(view);
                                         }
                                     });

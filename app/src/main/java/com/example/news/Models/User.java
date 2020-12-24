@@ -1,4 +1,4 @@
-package com.example.news.model;
+package com.example.news.Models;
 
 public class User {
     private String id;

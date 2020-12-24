@@ -1,5 +1,8 @@
 package com.example.news.Presenters;
 
+import com.example.news.Models.Login.LogInTestInterface;
+import com.example.news.Models.Login.LogInTestPresenterInterface;
+
 public class LogInActivityPresenter implements LogInTestPresenterInterface {
     LogInTestInterface logInTestInterface;
 
